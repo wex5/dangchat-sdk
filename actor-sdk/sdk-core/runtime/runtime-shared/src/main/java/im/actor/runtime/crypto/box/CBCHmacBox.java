@@ -54,11 +54,11 @@ public class CBCHmacBox {
         ByteStrings.write(res, 0, ByteStrings.intToBytes(content.length), 0, 4);
         ByteStrings.write(res, 4, content, 0, content.length);
 
-        hmac.reset();
+        /*hmac.reset();
         hmac.update(header, 0, header.length);
         hmac.update(iv, 0, 16);
         hmac.update(res, 0, content.length + 4);
-        hmac.doFinal(res, content.length + 4);
+        hmac.doFinal(res, content.length + 4);*/
         padding.padding(res, res.length - paddingLength - 1, paddingLength);
         res[res.length - 1] = (byte) paddingLength;
 
@@ -74,7 +74,7 @@ public class CBCHmacBox {
 
         byte[] hmacValue = new byte[32];
         int length = ByteStrings.bytesToInt(content);
-        hmac.reset();
+        /*hmac.reset();
         hmac.update(header, 0, header.length);
         hmac.update(iv, 0, 16);
         hmac.update(content, 0, length + 4);
@@ -83,7 +83,7 @@ public class CBCHmacBox {
             if (hmacValue[i] != content[length + 4 + i]) {
                 throw new IntegrityException("Broken package!");
             }
-        }
+        }*/
 
         int paddingSize = content[content.length - 1] & 0xFF;
         if (!padding.validate(content, content.length - paddingSize, paddingSize)) {
