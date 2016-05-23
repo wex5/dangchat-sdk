@@ -23,9 +23,7 @@ public class PRF {
     }
 
     public byte[] calculate(byte[] secret, String label, byte[] seed, int length) {
-
-        HMAC hmac = new HMAC(secret, digest);
-
+    	HMAC hmac = new HMAC(secret, digest);
         // PRF(secret: bytes, label: string, seed: bytes) = P_HASH(secret, bytes(label) + seed);
         // P_HASH(secret, seed) = HASH(secret, A(1) + seed) + HASH(secret, A(2) + seed) + HASH(secret, A(3) + seed) + ...
         //    where A():
@@ -37,11 +35,10 @@ public class PRF {
         byte[] tHash = new byte[digest.getDigestSize()];
         int offset = 0;
         while (offset * 32 < length) {
-
             // Update A
-            hmac.reset();
+            /*hmac.reset();
             hmac.update(A, 0, A.length);
-            hmac.doFinal(tHash, 0);
+            hmac.doFinal(tHash, 0);*/
             A = new byte[digest.getDigestSize()];
             ByteStrings.write(A, 0, tHash, 0, A.length);
 
