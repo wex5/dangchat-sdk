@@ -1,6 +1,7 @@
 package im.actor.core.network.api;
 
 import java.io.IOException;
+//import java.util.Arrays;
 import java.util.Random;
 
 import im.actor.core.network.ActorApi;
@@ -229,12 +230,30 @@ public class AuthKeyActor extends Actor {
 
                     PRF combinedPrf = Cryptos.PRF_SHA_STREEBOG_256();
                     byte[] nonce = ByteStrings.merge(clientNonce, serverNonce);
-                    byte[] pre_master_secret = Curve25519.calculateAgreement(clientKeyPair.getPrivateKey(), key);
+                    byte[] pre_master_secret = nonce;
                     byte[] master_secret = combinedPrf.calculate(pre_master_secret, "master secret", nonce, 256);
-                    byte[] verify = combinedPrf.calculate(master_secret, "client finished", nonce, 256);
+                    
+                  /*  Log.w(TAG, "clientNonce");
+                    Log.w(TAG, Arrays.toString(clientNonce));
+                    Log.w(TAG, "serverNonce");
+                    Log.w(TAG, Arrays.toString(serverNonce));
+                    Log.w(TAG, "nonce");
+                    Log.w(TAG, Arrays.toString(nonce));
+                    Log.w(TAG, "pre_master_secret");
+                    Log.w(TAG, Arrays.toString(pre_master_secret));
+                    Log.w(TAG, "clientNonce");
+                    Log.w(TAG, Arrays.toString(clientNonce));
+                    Log.w(TAG, "privateKey");
+                    Log.w(TAG, Arrays.toString(clientKeyPair.getPrivateKey()));
+                    Log.w(TAG, "key");
+                    Log.w(TAG, Arrays.toString(key));
+                    Log.w(TAG, "master_secret");
+                    Log.w(TAG, Arrays.toString(master_secret));*/
+
+                    /*byte[] verify = combinedPrf.calculate(master_secret, "client finished", nonce, 256);
                     if (!Curve25519.verifySignature(key, verify, r.getVerifySign())) {
                         throw new IOException("Incorrect Signature");
-                    }
+                    }*/
                     Digest sha256 = Crypto.createSHA256();
                     sha256.update(master_secret, 0, master_secret.length);
                     byte[] authIdHash = new byte[32];

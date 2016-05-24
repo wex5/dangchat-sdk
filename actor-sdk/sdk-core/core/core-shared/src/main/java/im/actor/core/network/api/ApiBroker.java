@@ -200,8 +200,8 @@ public class ApiBroker extends Actor {
             idMap.put(mid, randomId);
             // Log.d(TAG, message + " rid#" + randomId + " <- mid#" + mid);
         }
-
-        if (timeout > 0) {
+        // slm
+        if (timeout > 0 && false) {
             CommonTimer commonTimer = new CommonTimer(new TimeoutTask(holder.publicId));
             timeouts.put(holder.publicId, commonTimer);
             commonTimer.schedule(timeout);
