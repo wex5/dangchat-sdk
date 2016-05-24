@@ -37,6 +37,6 @@ public class JsStorageProvider implements StorageRuntime {
 
     @Override
     public void resetStorage() {
-        storage.clear();
+        //storage.clear();
     }
 }
