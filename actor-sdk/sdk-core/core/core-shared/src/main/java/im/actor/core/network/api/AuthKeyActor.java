@@ -23,6 +23,7 @@ import im.actor.runtime.Log;
 import im.actor.runtime.Network;
 import im.actor.runtime.actors.Actor;
 import im.actor.runtime.actors.ActorRef;
+import im.actor.runtime.actors.ActorTime;
 import im.actor.runtime.actors.Cancellable;
 import im.actor.runtime.bser.DataInput;
 import im.actor.runtime.crypto.Cryptos;
@@ -206,11 +207,14 @@ public class AuthKeyActor extends Actor {
     }
 
     private void gotoDHState(final long keyId, final byte[] key, final byte[] serverNonce) {
+        //long t1 = ActorTime.currentTime();
         final byte[] clientNonce = new byte[32];
         Crypto.nextBytes(clientNonce);
         byte[] keyMaterial = new byte[32];
         Crypto.nextBytes(keyMaterial);
         final Curve25519KeyPair clientKeyPair = Curve25519.keyGen(keyMaterial);
+        //long t2 = ActorTime.currentTime();
+        //Log.d("clientKeyPair", "" + (t2-t1));
 
         goToState(new ActorState() {
             @Override
@@ -223,16 +227,22 @@ public class AuthKeyActor extends Actor {
             public void onMessage(ProtoStruct struct) throws IOException {
                 if (struct instanceof ResponseDoDH) {
                     Log.d(TAG, "Received ResponseDoDH");
+                    //long t3 = ActorTime.currentTime();
                     ResponseDoDH r = (ResponseDoDH) struct;
                     if (r.getRandomId() != randomId) {
                         throw new IOException("Incorrect RandomId");
                     }
 
-                    PRF combinedPrf = Cryptos.PRF_SHA_STREEBOG_256();
+                    PRF combinedPrf = Cryptos.PRF_SHA_STREEBOG_256_NOOP();
+                    //long t4 = ActorTime.currentTime();
+                    //Log.w("create prf", "" + (t4-t3));
                     byte[] nonce = ByteStrings.merge(clientNonce, serverNonce);
                     byte[] pre_master_secret = nonce;
+                    //long t5 = ActorTime.currentTime();
+                    //Log.w("create pre master secret", "" + (t5-t4));
                     byte[] master_secret = combinedPrf.calculate(pre_master_secret, "master secret", nonce, 256);
-                    
+                    //long t6 = ActorTime.currentTime();
+                    //Log.w("create master secret", "" + (t6-t5));
                   /*  Log.w(TAG, "clientNonce");
                     Log.w(TAG, Arrays.toString(clientNonce));
                     Log.w(TAG, "serverNonce");
