@@ -18,7 +18,7 @@ public class ActorTrace implements TraceInterface {
 
     private static final String TAG = "ACTOR_SYSTEM";
 
-    private static final int PROCESS_THRESHOLD = 100;
+    private static final int PROCESS_THRESHOLD = 40;
 
     @Override
     public void onEnvelopeDelivered(Envelope envelope) {
