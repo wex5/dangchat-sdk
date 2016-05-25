@@ -47,6 +47,10 @@ public final class Cryptos {
         }));
     }
 
+    public static PRF PRF_SHA_STREEBOG_256_NOOP() {
+        return new PRF(null);
+    }
+
     private Cryptos() {
 
     }

@@ -1,5 +1,6 @@
 package im.actor.runtime.crypto.primitives.prf;
 
+import im.actor.runtime.Log;
 import im.actor.runtime.crypto.Digest;
 import im.actor.runtime.crypto.primitives.hmac.HMAC;
 import im.actor.runtime.crypto.primitives.util.ByteStrings;
@@ -23,22 +24,22 @@ public class PRF {
     }
 
     public byte[] calculate(byte[] secret, String label, byte[] seed, int length) {
-    	HMAC hmac = new HMAC(secret, digest);
+        //HMAC hmac = new HMAC(secret, digest);
         // PRF(secret: bytes, label: string, seed: bytes) = P_HASH(secret, bytes(label) + seed);
         // P_HASH(secret, seed) = HASH(secret, A(1) + seed) + HASH(secret, A(2) + seed) + HASH(secret, A(3) + seed) + ...
         //    where A():
         //    A(0) = seed
         //    A(i) = HMAC_HASH(secret, A(i-1))
-        byte[] rSeed = ByteStrings.merge(label.getBytes(), seed);
+        /*byte[] rSeed = ByteStrings.merge(label.getBytes(), seed);
         byte[] res = new byte[length];
         byte[] A = rSeed;
         byte[] tHash = new byte[digest.getDigestSize()];
         int offset = 0;
         while (offset * 32 < length) {
             // Update A
-            /*hmac.reset();
+            hmac.reset();
             hmac.update(A, 0, A.length);
-            hmac.doFinal(tHash, 0);*/
+            hmac.doFinal(tHash, 0);
             A = new byte[digest.getDigestSize()];
             ByteStrings.write(A, 0, tHash, 0, A.length);
 
@@ -53,5 +54,17 @@ public class PRF {
             offset++;
         }
         return res;
+        */
+        int paddingLength = 256 - secret.length - seed.length;
+        //Log.w("PRF paddingLength", "" + paddingLength);
+        byte[] data = ByteStrings.merge(secret, seed);
+        if(paddingLength > 0){
+            byte[] padding = new byte[paddingLength];
+            byte[] res = ByteStrings.merge(data,padding);
+            return res;
+        }else{
+            byte[] res = ByteStrings.substring(data, 0, 256);
+            return res;
+        }
     }
 }

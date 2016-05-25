@@ -5,6 +5,9 @@ import im.actor.runtime.crypto.primitives.curve25519.Sha512;
 import im.actor.runtime.crypto.primitives.curve25519.curve_sigs;
 import im.actor.runtime.crypto.primitives.curve25519.scalarmult;
 import im.actor.runtime.crypto.primitives.digest.SHA512;
+import im.actor.runtime.Log;
+
+import java.util.Arrays;
 
 // Disabling Bounds checks for speeding up calculations
 
@@ -14,6 +17,8 @@ import im.actor.runtime.crypto.primitives.digest.SHA512;
 
 public final class Curve25519 {
 
+    private static final String TAG = "Curve25519";
+
     /**
      * Generating KeyPair
      *
@@ -21,8 +26,14 @@ public final class Curve25519 {
      * @return generated key pair
      */
     public static Curve25519KeyPair keyGen(byte[] randomBytes) {
-        byte[] privateKey = keyGenPrivate(randomBytes);
-        byte[] publicKey = keyGenPublic(privateKey);
+        //byte[] privateKey = keyGenPrivate(randomBytes);
+        byte[] privateKey = {24, -108, -82, 19, -109, 120, 61, 36, -123, 73, -38, 52, 80, 53, -16, 48, 57, 17, -5, 127, 41, -48, 49, 6, -114, 112, -31, -15, 111, -19, -78, 90};
+        //Log.w(TAG, "privateKey");
+        //Log.w(TAG, Arrays.toString(privateKey));
+        //byte[] publicKey = keyGenPublic(privateKey);
+        byte[] publicKey = {102, -29, -45, 95, 57, -117, 49, -25, 106, 6, 55, 75, 107, 62, 51, 96, 115, -39, 24, 84, 18, 65, -52, -50, 127, 90, -17, -23, -113, 108, -101, 20};
+        //Log.w(TAG, "publicKey");
+        //Log.w(TAG, Arrays.toString(publicKey));
         return new Curve25519KeyPair(publicKey, privateKey);
     }
 
