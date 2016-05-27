@@ -97,15 +97,15 @@
 					"compact": "{name} 修改了群名称"
 				},
 				"topic_changed": {
-					"full":  "{name} changed the group topic to \"{topic}\"",
-					"compact": "{name} changed the group topic"
+					"full":  "{name} 修改群名称为 \"{topic}\"",
+					"compact": "{name} 修改了群名称"
 				},
 				"about_changed": {
-					"full":  "{name} changed the group about to \"{about}\"",
-					"compact": "{name} changed the group about"
+					"full":  "{name} 修改群信息为 \"{about}\"",
+					"compact": "{name} 修改了群信息"
 				},
-				"avatar_changed": "{name} changed the group photo",
-				"avatar_removed": "{name} removed the group photo"
+				"avatar_changed": "{name} 修改了群头像",
+				"avatar_removed": "{name} 删除了群头像"
 			},
 			"calls": {
 				"missed": "Missed call",
