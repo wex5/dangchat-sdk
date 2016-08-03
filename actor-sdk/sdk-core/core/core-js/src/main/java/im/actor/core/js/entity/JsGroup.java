@@ -59,15 +59,15 @@ public class JsGroup extends JavaScriptObject {
         }
         return create(groupVM.getId(), groupVM.getName().get(), groupVM.getAbout().get(), fileUrl, bigFileUrl,
                 Placeholders.getPlaceholder(groupVM.getId()), groupVM.getCreatorId(), presence,
-                jsMembers);
+                jsMembers, groupVM.isShare());
     }
 
     public static native JsGroup create(int id, String name, String about, String avatar, String bigAvatar,
                                         String placeholder, int adminId, String presence,
-                                        JsArray<JsGroupMember> members)/*-{
+                                        JsArray<JsGroupMember> members, boolean isShare)/*-{
         return {
             id: id, name: name, about: about, avatar: avatar, bigAvatar: bigAvatar, placeholder: placeholder,
-            adminId: adminId, presence: presence, members: members
+            adminId: adminId, presence: presence, members: members, isShare: isShare
         };
     }-*/;
 
