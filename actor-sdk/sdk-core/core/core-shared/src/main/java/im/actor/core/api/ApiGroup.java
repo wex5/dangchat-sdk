@@ -30,8 +30,9 @@ public class ApiGroup extends BserObject {
     private long createDate;
     private String theme;
     private String about;
+    private boolean isShare;
 
-    public ApiGroup(int id, long accessHash, @NotNull String title, @Nullable ApiAvatar avatar, @Nullable Integer membersCount, @Nullable Boolean isHidden, @Nullable ApiMapValue ext, boolean isMember, @Nullable Boolean isAdmin, int creatorUid, @NotNull List<ApiMember> members, long createDate, @Nullable String theme, @Nullable String about) {
+    public ApiGroup(int id, long accessHash, @NotNull String title, @Nullable ApiAvatar avatar, @Nullable Integer membersCount, @Nullable Boolean isHidden, @Nullable ApiMapValue ext, boolean isMember, @Nullable Boolean isAdmin, int creatorUid, @NotNull List<ApiMember> members, long createDate, @Nullable String theme, @Nullable String about, boolean isShare) {
         this.id = id;
         this.accessHash = accessHash;
         this.title = title;
@@ -46,6 +47,7 @@ public class ApiGroup extends BserObject {
         this.createDate = createDate;
         this.theme = theme;
         this.about = about;
+        this.isShare = isShare;
     }
 
     public ApiGroup() {
@@ -116,6 +118,10 @@ public class ApiGroup extends BserObject {
     public String getAbout() {
         return this.about;
     }
+    
+    public boolean isShare() {
+        return this.isShare;
+    }
 
     @Override
     public void parse(BserValues values) throws IOException {
@@ -137,6 +143,7 @@ public class ApiGroup extends BserObject {
         this.createDate = values.getLong(10);
         this.theme = values.optString(17);
         this.about = values.optString(18);
+        this.isShare = values.optBool(27);
         if (values.hasRemaining()) {
             setUnmappedObjects(values.buildRemaining());
         }
@@ -196,6 +203,7 @@ public class ApiGroup extends BserObject {
         res += ", isAdmin=" + this.isAdmin;
         res += ", members=" + this.members.size();
         res += ", createDate=" + this.createDate;
+        res += ", isShare=" + this.isShare;
         res += "}";
         return res;
     }
