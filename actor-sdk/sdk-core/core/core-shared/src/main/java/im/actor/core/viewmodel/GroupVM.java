@@ -65,6 +65,10 @@ public class GroupVM extends BaseValueModel<Group> {
     @Property("nonatomic, readonly")
     private StringValueModel about;
 
+    @NotNull
+    @Property("nonatomic, readonly")
+    private boolean isShare;
+
     private int myUid;
 
     @NotNull
@@ -88,6 +92,7 @@ public class GroupVM extends BaseValueModel<Group> {
         this.presence = new ValueModel<Integer>("group." + groupId + ".presence", 0);
         this.theme = new StringValueModel("group." + groupId + ".theme", rawObj.getTheme());
         this.about = new StringValueModel("group." + groupId + ".about", rawObj.getAbout());
+        this.isShare = rawObj.isShare();
     }
 
     /**
@@ -198,6 +203,12 @@ public class GroupVM extends BaseValueModel<Group> {
     @ObjectiveCName("getAboutModel")
     public StringValueModel getAbout() {
         return about;
+    }
+
+    @NotNull
+    @ObjectiveCName("isShareModel")
+    public boolean isShare() {
+        return isShare;
     }
 
     /**
