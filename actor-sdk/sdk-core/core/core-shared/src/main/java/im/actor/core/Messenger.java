@@ -36,6 +36,7 @@ import im.actor.core.entity.content.AbsContent;
 import im.actor.core.entity.content.FastThumb;
 import im.actor.core.entity.content.JsonContent;
 import im.actor.core.entity.Sticker;
+import im.actor.core.entity.RegisteredUser;
 import im.actor.core.events.PeerChatPreload;
 import im.actor.core.i18n.I18nEngine;
 import im.actor.core.modules.ModuleContext;
@@ -70,6 +71,7 @@ import im.actor.core.viewmodel.UploadFileCallback;
 import im.actor.core.viewmodel.UploadFileVM;
 import im.actor.core.viewmodel.UploadFileVMCallback;
 import im.actor.core.viewmodel.UserVM;
+import im.actor.core.viewmodel.RegisteredUserVM;
 import im.actor.runtime.Runtime;
 import im.actor.runtime.actors.ActorSystem;
 import im.actor.runtime.actors.messages.Void;
@@ -2365,5 +2367,24 @@ public class Messenger {
      */
     ModuleContext getModuleContext() {
         return modules;
+    }
+
+
+    //////////////////////////////////////
+    //         Justep add methods
+    //////////////////////////////////////
+
+    /**
+     * 注册用户
+     * @param userIds 用户Id数组
+     * @param userNames 用户名数组
+     * @return 注册后的用户Id
+     */
+    @NotNull
+    @ObjectiveCName("registerUsersCommandWithQuery:")
+    public Command<RegisteredUserVM[]> registerUsers(String[] userIds, String[] userNames) {
+        return callback -> modules.getUsersModule().registerUsers(userIds, userNames)
+                .then(v -> callback.onResult(v))
+                .failure(e -> callback.onError(e));
     }
 }
