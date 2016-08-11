@@ -24,6 +24,7 @@ import im.actor.core.entity.PeerSearchEntity;
 import im.actor.core.entity.PeerSearchType;
 import im.actor.core.entity.PeerType;
 import im.actor.core.entity.User;
+import im.actor.core.entity.RegisteredUser;
 import im.actor.core.js.annotations.UsedByApp;
 import im.actor.core.js.entity.*;
 import im.actor.core.js.modules.JsBindedValueCallback;
@@ -37,6 +38,7 @@ import im.actor.core.network.RpcCallback;
 import im.actor.core.network.RpcException;
 import im.actor.core.viewmodel.CommandCallback;
 import im.actor.core.viewmodel.UserVM;
+import im.actor.core.viewmodel.RegisteredUserVM;
 import im.actor.runtime.Log;
 import im.actor.runtime.Storage;
 import im.actor.runtime.actors.messages.*;
@@ -1626,19 +1628,15 @@ public class JsFacade implements Exportable {
                 messenger.findUsers(query).start(new CommandCallback<UserVM[]>() {
                     @Override
                     public void onResult(UserVM[] users) {
-                        Log.d(TAG, "findUsers:result");
                         JsArray<JsUser> jsUsers = JsArray.createArray().cast();
-
                         for (UserVM user : users) {
                             jsUsers.push(messenger.getJsUser(user.getId()).get());
                         }
-
                         resolve(jsUsers);
                     }
 
                     @Override
                     public void onError(Exception e) {
-                        Log.d(TAG, "findUsers:error");
                         reject(e.getMessage());
                     }
                 });
@@ -1759,4 +1757,34 @@ public class JsFacade implements Exportable {
             }
         }
     }
+
+
+    //////////////////////////////////////
+    //         Justep add methods
+    //////////////////////////////////////
+
+    @UsedByApp
+    public JsPromise registerUsers(final String[] userIds, final String[] userNames) {
+        return JsPromise.create(new JsPromiseExecutor() {
+            @Override
+            public void execute() {
+                messenger.registerUsers(userIds, userNames).start(new CommandCallback<RegisteredUserVM[]>() {
+                    @Override
+                    public void onResult(RegisteredUserVM[] users) {
+                        JsArray<JsRegisteredUser> jsUsers = JsArray.createArray().cast();
+                        for (RegisteredUserVM user : users) {
+                            jsUsers.push(messenger.getJsUserRegistered(user.getId(), user.getOutId().get(), user.getIsNewUser()).get());
+                        }
+                        resolve(jsUsers);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        reject(e.getMessage());
+                    }
+                });
+            }
+        });
+    }
+
 }
