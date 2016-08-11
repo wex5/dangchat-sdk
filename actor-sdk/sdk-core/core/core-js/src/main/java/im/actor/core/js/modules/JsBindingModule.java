@@ -20,6 +20,7 @@ import im.actor.core.entity.PeerType;
 import im.actor.core.entity.SearchEntity;
 import im.actor.core.entity.Sticker;
 import im.actor.core.entity.StickerPack;
+import im.actor.core.entity.RegisteredUser;
 import im.actor.core.entity.content.DocumentContent;
 import im.actor.core.entity.content.FileRemoteSource;
 import im.actor.core.entity.content.StickerContent;
@@ -40,6 +41,7 @@ import im.actor.core.js.entity.JsSearchEntity;
 import im.actor.core.js.entity.JsSticker;
 import im.actor.core.js.entity.JsTyping;
 import im.actor.core.js.entity.JsUser;
+import im.actor.core.js.entity.JsRegisteredUser;
 import im.actor.core.modules.AbsModule;
 import im.actor.core.modules.Modules;
 import im.actor.core.viewmodel.AppStateVM;
@@ -54,6 +56,7 @@ import im.actor.core.viewmodel.GroupVM;
 import im.actor.core.viewmodel.UserPresence;
 import im.actor.core.viewmodel.UserTypingVM;
 import im.actor.core.viewmodel.UserVM;
+import im.actor.core.viewmodel.RegisteredUserVM;
 import im.actor.runtime.js.mvvm.JsDisplayList;
 import im.actor.runtime.js.mvvm.JsDisplayListBind;
 import im.actor.runtime.mvvm.ModelChangedListener;
@@ -273,6 +276,14 @@ public class JsBindingModule extends AbsModule implements JsFileLoadedListener {
             usersBloked.put(uid, value);
         }
         return usersBloked.get(uid);
+    }
+
+    public JsBindedValue<JsRegisteredUser> getUserRegistered(int userId, String outUserId, boolean isNewUser) {
+        final RegisteredUser user = RegisteredUser.createInstance(userId, outUserId, isNewUser);
+        final RegisteredUserVM registeredUserVM = new RegisteredUserVM(user);
+        final JsBindedValue<JsRegisteredUser> value = new JsBindedValue<>(
+                JsRegisteredUser.fromRegisteredUserVM(registeredUserVM, messenger));
+        return value;
     }
 
     public JsBindedValue<JsGroup> getGroup(int gid) {
