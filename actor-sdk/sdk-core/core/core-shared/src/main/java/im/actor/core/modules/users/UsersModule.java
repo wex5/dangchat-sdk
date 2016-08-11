@@ -7,6 +7,7 @@ package im.actor.core.modules.users;
 import java.util.ArrayList;
 import java.util.List;
 
+import im.actor.core.api.ApiRegisteredUser;
 import im.actor.core.api.ApiUserOutPeer;
 import im.actor.core.api.rpc.RequestBlockUser;
 import im.actor.core.api.rpc.RequestEditAbout;
@@ -15,15 +16,18 @@ import im.actor.core.api.rpc.RequestEditNickName;
 import im.actor.core.api.rpc.RequestEditUserLocalName;
 import im.actor.core.api.rpc.RequestLoadBlockedUsers;
 import im.actor.core.api.rpc.RequestUnblockUser;
+import im.actor.core.api.rpc.RequestRegisterUsers;
 import im.actor.core.api.updates.UpdateUserAboutChanged;
 import im.actor.core.api.updates.UpdateUserBlocked;
 import im.actor.core.api.updates.UpdateUserLocalNameChanged;
 import im.actor.core.api.updates.UpdateUserNameChanged;
 import im.actor.core.api.updates.UpdateUserNickChanged;
 import im.actor.core.api.updates.UpdateUserUnblocked;
+import im.actor.core.api.rpc.ResponseRegisterUsers;
 import im.actor.core.entity.Peer;
 import im.actor.core.entity.PeerType;
 import im.actor.core.entity.User;
+import im.actor.core.entity.RegisteredUser;
 import im.actor.core.events.PeerChatOpened;
 import im.actor.core.events.PeerInfoOpened;
 import im.actor.core.events.UserVisible;
@@ -32,6 +36,7 @@ import im.actor.core.modules.ModuleContext;
 import im.actor.core.modules.users.router.UserRouter;
 import im.actor.core.modules.users.router.UserRouterInt;
 import im.actor.core.viewmodel.UserVM;
+import im.actor.core.viewmodel.RegisteredUserVM;
 import im.actor.runtime.Storage;
 import im.actor.runtime.actors.ActorRef;
 import im.actor.runtime.actors.messages.Void;
@@ -171,4 +176,27 @@ public class UsersModule extends AbsModule implements BusSubscriber {
             }
         }
     }
+
+
+    //////////////////////////////////////
+    //         Justep add methods
+    //////////////////////////////////////
+
+    public Promise<RegisteredUserVM[]> registerUsers(final String[] userIds, final String[] userNames) {
+        List<String> userIdList = new ArrayList<String>();
+        List<String> userNameList = new ArrayList<String>();
+        for(int i = 0; i < userIds.length; i++) {
+            userIdList.add(userIds[i]);
+            userNameList.add(userNames[i]);
+        }
+        return api(new RequestRegisterUsers(userIdList, userNameList))
+                .map(responseRegisterUsers -> {
+                    ArrayList<RegisteredUserVM> users = new ArrayList<>();
+                    for (ApiRegisteredUser u : responseRegisterUsers.getUsers()) {
+                        users.add(new RegisteredUserVM(new RegisteredUser(u)));
+                    }
+                    return users.toArray(new RegisteredUserVM[users.size()]);
+                });
+    }
+
 }
