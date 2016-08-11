@@ -110,12 +110,10 @@ public abstract class AbsModule {
         context.getActorApi().request(request, new RpcCallback<T>() {
             @Override
             public void onResult(T response) {
-
             }
 
             @Override
             public void onError(RpcException e) {
-
             }
         }, timeout);
     }
