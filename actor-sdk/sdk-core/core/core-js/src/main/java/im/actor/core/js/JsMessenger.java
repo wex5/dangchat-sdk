@@ -40,6 +40,7 @@ import im.actor.core.js.entity.JsPeer;
 import im.actor.core.js.entity.JsPeerInfo;
 import im.actor.core.js.entity.JsTyping;
 import im.actor.core.js.entity.JsUser;
+import im.actor.core.js.entity.JsRegisteredUser;
 import im.actor.core.js.entity.Placeholders;
 import im.actor.core.js.images.JsImageResize;
 import im.actor.core.js.images.JsResizeListener;
@@ -183,6 +184,10 @@ public class JsMessenger extends Messenger {
 
     public JsBindedValue<JsBlockedUser> getJsUserBlocked(int uid) {
         return jsBindingModule.getUserBlocked(uid);
+    }
+
+    public JsBindedValue<JsRegisteredUser> getJsUserRegistered(int userId, String userOutId, boolean isNewUser) {
+        return jsBindingModule.getUserRegistered(userId, userOutId, isNewUser);
     }
 
     public JsBindedValue<JsGroup> getJsGroup(int gid) {
