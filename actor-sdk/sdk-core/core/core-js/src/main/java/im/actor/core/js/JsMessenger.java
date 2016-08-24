@@ -40,7 +40,6 @@ import im.actor.core.js.entity.JsPeer;
 import im.actor.core.js.entity.JsPeerInfo;
 import im.actor.core.js.entity.JsTyping;
 import im.actor.core.js.entity.JsUser;
-import im.actor.core.js.entity.JsRegisteredUser;
 import im.actor.core.js.entity.Placeholders;
 import im.actor.core.js.images.JsImageResize;
 import im.actor.core.js.images.JsResizeListener;
@@ -65,6 +64,10 @@ import im.actor.runtime.js.mvvm.JsDisplayList;
 import im.actor.runtime.mvvm.Value;
 import im.actor.runtime.mvvm.ValueChangedListener;
 import im.actor.runtime.threading.ThreadDispatcher;
+
+//添加批量用户注册支持
+//by Lining 2016/8/24
+import im.actor.core.js.entity.JsRegisteredUser;
 
 public class JsMessenger extends Messenger {
 
@@ -186,6 +189,14 @@ public class JsMessenger extends Messenger {
         return jsBindingModule.getUserBlocked(uid);
     }
 
+    /**
+     * 添加批量注册用户支持
+     * by Lining 2016/8/24
+     * @param userId
+     * @param userOutId
+     * @param isNewUser
+     * @return
+     */
     public JsBindedValue<JsRegisteredUser> getJsUserRegistered(int userId, String userOutId, boolean isNewUser) {
         return jsBindingModule.getUserRegistered(userId, userOutId, isNewUser);
     }

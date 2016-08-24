@@ -30,6 +30,9 @@ public class ApiGroup extends BserObject {
     private long createDate;
     private String theme;
     private String about;
+
+    //添加isShare字段
+    //by Lining 2016/8/24
     private boolean isShare;
 
     public ApiGroup(int id, long accessHash, @NotNull String title, @Nullable ApiAvatar avatar, @Nullable Integer membersCount, @Nullable Boolean isHidden, @Nullable ApiMapValue ext, boolean isMember, @Nullable Boolean isAdmin, int creatorUid, @NotNull List<ApiMember> members, long createDate, @Nullable String theme, @Nullable String about, boolean isShare) {
@@ -47,6 +50,9 @@ public class ApiGroup extends BserObject {
         this.createDate = createDate;
         this.theme = theme;
         this.about = about;
+
+        //设置isShare字段
+        //by Lining 2016/8/24
         this.isShare = isShare;
     }
 
@@ -143,10 +149,13 @@ public class ApiGroup extends BserObject {
         this.createDate = values.getLong(10);
         this.theme = values.optString(17);
         this.about = values.optString(18);
-        this.isShare = values.optBool(27);
         if (values.hasRemaining()) {
             setUnmappedObjects(values.buildRemaining());
         }
+
+        //设置isShare字段
+        //by Lining 2016/8/24
+        this.isShare = values.optBool(28);
     }
 
     @Override

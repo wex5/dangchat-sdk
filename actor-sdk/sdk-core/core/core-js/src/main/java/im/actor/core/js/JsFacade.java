@@ -1763,6 +1763,13 @@ public class JsFacade implements Exportable {
     //         Justep add methods
     //////////////////////////////////////
 
+    /**
+     * 批量注册用户
+     * by Lining 2016/8/24
+     * @param userIds
+     * @param userNames
+     * @return
+     */
     @UsedByApp
     public JsPromise registerUsers(final String[] userIds, final String[] userNames) {
         return JsPromise.create(new JsPromiseExecutor() {

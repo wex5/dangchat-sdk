@@ -36,7 +36,6 @@ import im.actor.core.entity.content.AbsContent;
 import im.actor.core.entity.content.FastThumb;
 import im.actor.core.entity.content.JsonContent;
 import im.actor.core.entity.Sticker;
-import im.actor.core.entity.RegisteredUser;
 import im.actor.core.events.PeerChatPreload;
 import im.actor.core.i18n.I18nEngine;
 import im.actor.core.modules.ModuleContext;
@@ -71,7 +70,6 @@ import im.actor.core.viewmodel.UploadFileCallback;
 import im.actor.core.viewmodel.UploadFileVM;
 import im.actor.core.viewmodel.UploadFileVMCallback;
 import im.actor.core.viewmodel.UserVM;
-import im.actor.core.viewmodel.RegisteredUserVM;
 import im.actor.runtime.Runtime;
 import im.actor.runtime.actors.ActorSystem;
 import im.actor.runtime.actors.messages.Void;
@@ -82,6 +80,11 @@ import im.actor.runtime.promise.Promise;
 import im.actor.runtime.storage.PreferencesStorage;
 import im.actor.runtime.threading.SimpleDispatcher;
 import im.actor.runtime.threading.ThreadDispatcher;
+
+//添加批量注册用户支持
+//by Lining 2016/8/24
+import im.actor.core.entity.RegisteredUser;
+import im.actor.core.viewmodel.RegisteredUserVM;
 
 /**
  * Entry point to Actor Messaging
@@ -2376,6 +2379,7 @@ public class Messenger {
 
     /**
      * 注册用户
+     * by Lining 2016/8/24
      * @param userIds 用户Id数组
      * @param userNames 用户名数组
      * @return 注册后的用户Id

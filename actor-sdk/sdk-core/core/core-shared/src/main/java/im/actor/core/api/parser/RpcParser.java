@@ -167,7 +167,6 @@ public class RpcParser extends BaseParser<RpcScope> {
             case 33: return RequestSubscribeFromOnline.fromBytes(payload);
             case 74: return RequestSubscribeToGroupOnline.fromBytes(payload);
             case 75: return RequestSubscribeFromGroupOnline.fromBytes(payload);
-            case 6000: return RequestRegisterUsers.fromBytes(payload);
             case 229: return RequestNotifyAboutDeviceInfo.fromBytes(payload);
             case 116: return RequestInitWebaction.fromBytes(payload);
             case 123: return RequestCompleteWebaction.fromBytes(payload);
@@ -237,13 +236,17 @@ public class RpcParser extends BaseParser<RpcScope> {
             case 209: return ResponseBool.fromBytes(payload);
             case 117: return ResponseInitWebaction.fromBytes(payload);
             case 124: return ResponseCompleteWebaction.fromBytes(payload);
-            case 6001: return ResponseRegisterUsers.fromBytes(payload);
             case 13: return SeqUpdate.fromBytes(payload);
             case 73: return FatSeqUpdate.fromBytes(payload);
             case 26: return WeakUpdate.fromBytes(payload);
             case 2673: return WeakFatUpdate.fromBytes(payload);
             case 25: return SeqUpdateTooLong.fromBytes(payload);
             case 2625: return CombinedUpdate.fromBytes(payload);
+
+            //添加批量注册用户支持
+            //by Lining 2016/8/24
+            case 6000: return RequestRegisterUsers.fromBytes(payload);
+            case 6001: return ResponseRegisterUsers.fromBytes(payload);
         }
         throw new IOException();
     }
