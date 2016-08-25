@@ -2418,4 +2418,11 @@ public class Messenger {
     public String getDeviceTitle() {
         return this.modules.getDeviceTitle();
     }
+
+    /**
+     * 得到TransactionHash
+     * by Lining 2016/8/25
+     * @return
+     */
+    public String getTransactionHash() { return this.modules.getTransactionHash(); }
 }

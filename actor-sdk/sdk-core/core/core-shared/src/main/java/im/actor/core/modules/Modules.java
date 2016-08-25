@@ -421,4 +421,11 @@ public class Modules implements ModuleContext {
     public String getDeviceTitle() {
         return this.authentication.getDeviceTitle();
     }
+
+    /**
+     * 得到TransactionHash
+     * by Lining 2016/8/25
+     * @return
+     */
+    public String getTransactionHash() { return this.authentication.getTransactionHash(); }
 }

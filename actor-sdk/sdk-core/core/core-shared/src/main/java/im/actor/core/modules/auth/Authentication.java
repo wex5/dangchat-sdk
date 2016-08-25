@@ -667,4 +667,12 @@ public class Authentication {
     public String getDeviceTitle() {
         return apiConfiguration.getDeviceTitle();
     }
+
+    /**
+     * 得到TransactionHash
+     * by Lining 2016/8/25
+     * @return
+     */
+    public String getTransactionHash() { return this.modules.getPreferences()
+            .getString(KEY_TRANSACTION_HASH); }
 }

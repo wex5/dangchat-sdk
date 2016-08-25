@@ -1774,10 +1774,12 @@ public class JsFacade implements Exportable {
         com.google.gwt.json.client.JSONNumber appId = new com.google.gwt.json.client.JSONNumber(this.messenger.getAppId());
         com.google.gwt.json.client.JSONString appKey = new com.google.gwt.json.client.JSONString(this.messenger.getAppKey());
         com.google.gwt.json.client.JSONString deviceTitle = new com.google.gwt.json.client.JSONString(this.messenger.getDeviceTitle());
+        com.google.gwt.json.client.JSONString transactionHash = new com.google.gwt.json.client.JSONString(this.messenger.getTransactionHash());
 
         json.put("appId", appId);
         json.put("appKey", appKey);
         json.put("deviceTitle", deviceTitle);
+        json.put("transactionHash", transactionHash);
         return json;
     }
 
