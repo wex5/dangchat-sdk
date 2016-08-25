@@ -1764,6 +1764,24 @@ public class JsFacade implements Exportable {
     //////////////////////////////////////
 
     /**
+     * 得到app相关信息
+     * by Lining 2016/8/25
+     * @return
+     */
+    @UsedByApp
+    public com.google.gwt.json.client.JSONObject getAppInfo() {
+        com.google.gwt.json.client.JSONObject json = new com.google.gwt.json.client.JSONObject();
+        com.google.gwt.json.client.JSONNumber appId = new com.google.gwt.json.client.JSONNumber(this.messenger.getAppId());
+        com.google.gwt.json.client.JSONString appKey = new com.google.gwt.json.client.JSONString(this.messenger.getAppKey());
+        com.google.gwt.json.client.JSONString deviceTitle = new com.google.gwt.json.client.JSONString(this.messenger.getDeviceTitle());
+
+        json.put("appId", appId);
+        json.put("appKey", appKey);
+        json.put("deviceTitle", deviceTitle);
+        return json;
+    }
+
+    /**
      * 批量注册用户
      * by Lining 2016/8/24
      * @param userIds

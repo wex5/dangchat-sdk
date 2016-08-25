@@ -2391,4 +2391,31 @@ public class Messenger {
                 .then(v -> callback.onResult(v))
                 .failure(e -> callback.onError(e));
     }
+
+    /**
+     * 得到AppId
+     * by Lining 2016/8/25
+     * @return
+     */
+    public int getAppId() {
+        return this.modules.getAppId();
+    }
+
+    /**
+     * 得到AppKey
+     * by Lining 2016/8/25
+     * @return
+     */
+    public String getAppKey() {
+        return this.modules.getAppKey();
+    }
+
+    /**
+     * 得到DeviceTitle
+     * by Lining 2016/8/25
+     * @return
+     */
+    public String getDeviceTitle() {
+        return this.modules.getDeviceTitle();
+    }
 }

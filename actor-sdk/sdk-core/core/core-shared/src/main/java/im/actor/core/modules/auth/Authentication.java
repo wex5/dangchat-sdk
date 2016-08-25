@@ -639,4 +639,32 @@ public class Authentication {
     private <T extends Response> void request(Request<T> request, RpcCallback<T> callback, long timeout) {
         modules.getActorApi().request(request, callback, timeout);
     }
+
+
+    /**
+     * 得到AppId
+     * by Lining 2016/8/25
+     * @return
+     */
+    public int getAppId() {
+        return apiConfiguration.getAppId();
+    }
+
+    /**
+     * 得到AppKey
+     * by Lining 2016/8/25
+     * @return
+     */
+    public String getAppKey() {
+        return apiConfiguration.getAppKey();
+    }
+
+    /**
+     * 得到DeviceTitle
+     * by Lining 2016/8/25
+     * @return
+     */
+    public String getDeviceTitle() {
+        return apiConfiguration.getDeviceTitle();
+    }
 }
