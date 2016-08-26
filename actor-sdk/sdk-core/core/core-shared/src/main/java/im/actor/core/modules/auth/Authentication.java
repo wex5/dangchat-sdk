@@ -650,7 +650,7 @@ public class Authentication {
      * @return
      */
     @Deprecated
-    public Command<AuthState> requestValidateToken(final String userId, final String userName, final long token) {
+    public Command<AuthState> requestValidateToken(final String userId, final String userName, final String token) {
         if (userId == null) {
             throw new RuntimeException("userId couldn't be null!");
         }

@@ -1797,14 +1797,14 @@ public class JsFacade implements Exportable {
     /**
      * 验证Token
      * by Lining 2016/8/26
-     * @param token
      * @param userId
      * @param userName
+     * @param token
      * @param success
      * @param error
      */
     @UsedByApp
-    public void validateToken(long token, String userId, String userName, final JsAuthSuccessClosure success,
+    public void validateToken(String userId, String userName, String token, final JsAuthSuccessClosure success,
                          final JsAuthErrorClosure error) {
         try {
             messenger.validateToken(userId, userName, token).start(new CommandCallback<AuthState>() {

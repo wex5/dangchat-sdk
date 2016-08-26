@@ -2402,7 +2402,7 @@ public class Messenger {
      */
     @NotNull
     @ObjectiveCName("validateTokenCommand:")
-    public Command<AuthState> validateToken(final String userId, final String userName, final long token) {
+    public Command<AuthState> validateToken(final String userId, final String userName, final String token) {
         return modules.getAuthModule().requestValidateToken(userId, userName, token);
     }
 

@@ -22,7 +22,7 @@ public class RequestStartTokenAuth extends Request<ResponseAuth> {
         return Bser.parse(new RequestStartTokenAuth(), data);
     }
 
-    private long token;
+    private String token;
     private int appId;
     private String apiKey;
     private byte[] deviceHash;
@@ -32,7 +32,7 @@ public class RequestStartTokenAuth extends Request<ResponseAuth> {
     private String userId;
     private String userName;
 
-    public RequestStartTokenAuth(@NotNull long token, int appId, @NotNull String apiKey, @NotNull byte[] deviceHash, @NotNull String deviceTitle, @Nullable String timeZone, @NotNull List<String> preferredLanguages, String userId, String userName) {
+    public RequestStartTokenAuth(@NotNull String token, int appId, @NotNull String apiKey, @NotNull byte[] deviceHash, @NotNull String deviceTitle, @Nullable String timeZone, @NotNull List<String> preferredLanguages, String userId, String userName) {
         this.token = token;
         this.appId = appId;
         this.apiKey = apiKey;
@@ -49,7 +49,7 @@ public class RequestStartTokenAuth extends Request<ResponseAuth> {
     }
 
     @NotNull
-    public long getToken() {
+    public String getToken() {
         return this.token;
     }
 
@@ -92,7 +92,7 @@ public class RequestStartTokenAuth extends Request<ResponseAuth> {
 
     @Override
     public void parse(BserValues values) throws IOException {
-        this.token = values.getLong(1);
+        this.token = values.getString(1);
         this.appId = values.getInt(2);
         this.apiKey = values.getString(3);
         this.deviceHash = values.getBytes(4);
@@ -105,7 +105,7 @@ public class RequestStartTokenAuth extends Request<ResponseAuth> {
 
     @Override
     public void serialize(BserWriter writer) throws IOException {
-        writer.writeLong(1, this.token);
+        writer.writeString(1, this.token);
         writer.writeInt(2, this.appId);
         if (this.apiKey == null) {
             throw new IOException();
