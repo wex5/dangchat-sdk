@@ -22,15 +22,17 @@ public class RequestStartTokenAuth extends Request<ResponseAuth> {
         return Bser.parse(new RequestStartTokenAuth(), data);
     }
 
-    private String token;
+    private long token;
     private int appId;
     private String apiKey;
     private byte[] deviceHash;
     private String deviceTitle;
     private String timeZone;
     private List<String> preferredLanguages;
+    private String userId;
+    private String userName;
 
-    public RequestStartTokenAuth(@NotNull String token, int appId, @NotNull String apiKey, @NotNull byte[] deviceHash, @NotNull String deviceTitle, @Nullable String timeZone, @NotNull List<String> preferredLanguages) {
+    public RequestStartTokenAuth(@NotNull long token, int appId, @NotNull String apiKey, @NotNull byte[] deviceHash, @NotNull String deviceTitle, @Nullable String timeZone, @NotNull List<String> preferredLanguages, String userId, String userName) {
         this.token = token;
         this.appId = appId;
         this.apiKey = apiKey;
@@ -38,6 +40,8 @@ public class RequestStartTokenAuth extends Request<ResponseAuth> {
         this.deviceTitle = deviceTitle;
         this.timeZone = timeZone;
         this.preferredLanguages = preferredLanguages;
+        this.userId = userId;
+        this.userName = userName;
     }
 
     public RequestStartTokenAuth() {
@@ -45,7 +49,7 @@ public class RequestStartTokenAuth extends Request<ResponseAuth> {
     }
 
     @NotNull
-    public String getToken() {
+    public long getToken() {
         return this.token;
     }
 
@@ -78,23 +82,30 @@ public class RequestStartTokenAuth extends Request<ResponseAuth> {
         return this.preferredLanguages;
     }
 
+    @NotNull
+    public String getUserId() { return this.userId; }
+
+    @NotNull
+    public String getUserName() {
+        return this.userName;
+    }
+
     @Override
     public void parse(BserValues values) throws IOException {
-        this.token = values.getString(1);
+        this.token = values.getLong(1);
         this.appId = values.getInt(2);
         this.apiKey = values.getString(3);
         this.deviceHash = values.getBytes(4);
         this.deviceTitle = values.getString(5);
         this.timeZone = values.optString(6);
         this.preferredLanguages = values.getRepeatedString(7);
+        this.userId = values.getString(8);
+        this.userName = values.getString(9);
     }
 
     @Override
     public void serialize(BserWriter writer) throws IOException {
-        if (this.token == null) {
-            throw new IOException();
-        }
-        writer.writeString(1, this.token);
+        writer.writeLong(1, this.token);
         writer.writeInt(2, this.appId);
         if (this.apiKey == null) {
             throw new IOException();
@@ -112,6 +123,14 @@ public class RequestStartTokenAuth extends Request<ResponseAuth> {
             writer.writeString(6, this.timeZone);
         }
         writer.writeRepeatedString(7, this.preferredLanguages);
+        if (this.userId == null) {
+            throw new IOException();
+        }
+        writer.writeString(8, this.userId);
+        if (this.userName == null) {
+            throw new IOException();
+        }
+        writer.writeString(9, this.userName);
     }
 
     @Override
@@ -122,6 +141,8 @@ public class RequestStartTokenAuth extends Request<ResponseAuth> {
         res += ", deviceTitle=" + this.deviceTitle;
         res += ", timeZone=" + this.timeZone;
         res += ", preferredLanguages=" + this.preferredLanguages;
+        res += "userId=" + this.userId;
+        res += "userName=" + this.userName;
         res += "}";
         return res;
     }

@@ -395,37 +395,4 @@ public class Modules implements ModuleContext {
         return events;
     }
 
-    /**
-     * 得到AppId
-     * by Lining 2016/8/25
-     * @return
-     */
-    public int getAppId() {
-        return this.authentication.getAppId();
-    }
-
-    /**
-     * 得到AppKey
-     * by Lining 2016/8/25
-     * @return
-     */
-    public String getAppKey() {
-        return this.authentication.getAppKey();
-    }
-
-    /**
-     * 得到DeviceTitle
-     * by Lining 2016/8/25
-     * @return
-     */
-    public String getDeviceTitle() {
-        return this.authentication.getDeviceTitle();
-    }
-
-    /**
-     * 得到TransactionHash
-     * by Lining 2016/8/25
-     * @return
-     */
-    public String getTransactionHash() { return this.authentication.getTransactionHash(); }
 }

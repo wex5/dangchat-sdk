@@ -2393,36 +2393,17 @@ public class Messenger {
     }
 
     /**
-     * 得到AppId
-     * by Lining 2016/8/25
+     * 验证Token
+     * by Lining 2016/8/26
+     * @param userId
+     * @param userName
+     * @param token
      * @return
      */
-    public int getAppId() {
-        return this.modules.getAppId();
+    @NotNull
+    @ObjectiveCName("validateTokenCommand:")
+    public Command<AuthState> validateToken(final String userId, final String userName, final long token) {
+        return modules.getAuthModule().requestValidateToken(userId, userName, token);
     }
 
-    /**
-     * 得到AppKey
-     * by Lining 2016/8/25
-     * @return
-     */
-    public String getAppKey() {
-        return this.modules.getAppKey();
-    }
-
-    /**
-     * 得到DeviceTitle
-     * by Lining 2016/8/25
-     * @return
-     */
-    public String getDeviceTitle() {
-        return this.modules.getDeviceTitle();
-    }
-
-    /**
-     * 得到TransactionHash
-     * by Lining 2016/8/25
-     * @return
-     */
-    public String getTransactionHash() { return this.modules.getTransactionHash(); }
 }

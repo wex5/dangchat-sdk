@@ -1764,26 +1764,6 @@ public class JsFacade implements Exportable {
     //////////////////////////////////////
 
     /**
-     * 得到app相关信息
-     * by Lining 2016/8/25
-     * @return
-     */
-    @UsedByApp
-    public com.google.gwt.json.client.JSONObject getAppInfo() {
-        com.google.gwt.json.client.JSONObject json = new com.google.gwt.json.client.JSONObject();
-        com.google.gwt.json.client.JSONNumber appId = new com.google.gwt.json.client.JSONNumber(this.messenger.getAppId());
-        com.google.gwt.json.client.JSONString appKey = new com.google.gwt.json.client.JSONString(this.messenger.getAppKey());
-        com.google.gwt.json.client.JSONString deviceTitle = new com.google.gwt.json.client.JSONString(this.messenger.getDeviceTitle());
-        com.google.gwt.json.client.JSONString transactionHash = new com.google.gwt.json.client.JSONString(this.messenger.getTransactionHash());
-
-        json.put("appId", appId);
-        json.put("appKey", appKey);
-        json.put("deviceTitle", deviceTitle);
-        json.put("transactionHash", transactionHash);
-        return json;
-    }
-
-    /**
      * 批量注册用户
      * by Lining 2016/8/24
      * @param userIds
@@ -1812,6 +1792,50 @@ public class JsFacade implements Exportable {
                 });
             }
         });
+    }
+
+    /**
+     * 验证Token
+     * by Lining 2016/8/26
+     * @param token
+     * @param userId
+     * @param userName
+     * @param success
+     * @param error
+     */
+    @UsedByApp
+    public void validToken(long token, String userId, String userName, final JsAuthSuccessClosure success,
+                         final JsAuthErrorClosure error) {
+        try {
+            messenger.validateToken(userId, userName, token).start(new CommandCallback<AuthState>() {
+                @Override
+                public void onResult(AuthState res) {
+                    success.onResult(Enums.convert(res));
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    String tag = "INTERNAL_ERROR";
+                    String message = "Internal error";
+                    boolean canTryAgain = false;
+                    if (e instanceof RpcException) {
+                        tag = ((RpcException) e).getTag();
+                        message = e.getMessage();
+                        canTryAgain = ((RpcException) e).isCanTryAgain();
+                    }
+                    error.onError(tag, message, canTryAgain, getAuthState());
+                }
+            });
+        } catch (Exception e) {
+            Log.e(TAG, e);
+            im.actor.runtime.Runtime.postToMainThread(new Runnable() {
+                @Override
+                public void run() {
+                    error.onError("TOKEN_INVALID", "Invalid token", false,
+                            getAuthState());
+                }
+            });
+        }
     }
 
 }

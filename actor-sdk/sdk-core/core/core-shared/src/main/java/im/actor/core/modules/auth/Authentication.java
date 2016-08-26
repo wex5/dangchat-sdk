@@ -642,37 +642,61 @@ public class Authentication {
 
 
     /**
-     * 得到AppId
-     * by Lining 2016/8/25
+     * 验证Token
+     * by Lining 2016/8/26
+     * @param userId
+     * @param userName
+     * @param token
      * @return
      */
-    public int getAppId() {
-        return apiConfiguration.getAppId();
-    }
+    @Deprecated
+    public Command<AuthState> requestValidateToken(final String userId, final String userName, final long token) {
+        if (userId == null) {
+            throw new RuntimeException("userId couldn't be null!");
+        }
+        if (userName == null) {
+            throw new RuntimeException("userName couldn't be null!");
+        }
+        return callback -> {
+            String transactionHash = modules.getPreferences()
+                    .getString(KEY_TRANSACTION_HASH);
+            ArrayList<String> langs1 = new ArrayList<>();
+            for (String s : modules.getConfiguration().getPreferredLanguages()) {
+                langs1.add(s);
+            }
+            request(new im.actor.core.api.rpc.RequestStartTokenAuth(
+                    token,
+                    apiConfiguration.getAppId(),
+                    apiConfiguration.getAppKey(),
+                    deviceHash,
+                    apiConfiguration.getDeviceTitle(),
+                    modules.getConfiguration().getTimeZone(),
+                    langs1,
+                    userId,
+                    userName
+            ), new RpcCallback<ResponseAuth>() {
+                @Override
+                public void onResult(ResponseAuth response) {
+                    onLoggedIn(callback, response);
+                }
 
-    /**
-     * 得到AppKey
-     * by Lining 2016/8/25
-     * @return
-     */
-    public String getAppKey() {
-        return apiConfiguration.getAppKey();
-    }
+                @Override
+                public void onError(final RpcException e) {
+                    if ("TOKEN_INVALID".equals(e.getTag())) {
+                        resetAuth();
+                    } else if ("PHONE_NUMBER_UNOCCUPIED".equals(e.getTag()) || "EMAIL_UNOCCUPIED".equals(e.getTag())) {
+                        // modules.getPreferences().putString(KEY_CODE, code);
+                        state = AuthState.SIGN_UP;
+                        Runtime.postToMainThread(() -> callback.onResult(AuthState.SIGN_UP));
+                        return;
+                    }
 
-    /**
-     * 得到DeviceTitle
-     * by Lining 2016/8/25
-     * @return
-     */
-    public String getDeviceTitle() {
-        return apiConfiguration.getDeviceTitle();
+                    Runtime.postToMainThread(() -> {
+                        Log.e(TAG, e);
+                        callback.onError(e);
+                    });
+                }
+            });
+        };
     }
-
-    /**
-     * 得到TransactionHash
-     * by Lining 2016/8/25
-     * @return
-     */
-    public String getTransactionHash() { return this.modules.getPreferences()
-            .getString(KEY_TRANSACTION_HASH); }
 }
