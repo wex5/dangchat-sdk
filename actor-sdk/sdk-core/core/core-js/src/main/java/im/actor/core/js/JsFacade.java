@@ -1804,7 +1804,7 @@ public class JsFacade implements Exportable {
      * @param error
      */
     @UsedByApp
-    public void validToken(long token, String userId, String userName, final JsAuthSuccessClosure success,
+    public void validateToken(long token, String userId, String userName, final JsAuthSuccessClosure success,
                          final JsAuthErrorClosure error) {
         try {
             messenger.validateToken(userId, userName, token).start(new CommandCallback<AuthState>() {
