@@ -1127,11 +1127,11 @@ public class JsFacade implements Exportable {
     }
 
     @UsedByApp
-    public JsPromise findAllText(final JsPeer peer, final String query) {
+    public JsPromise findAllText(final JsPeer peer, final String query, final int limit, final int offset) {
         return JsPromise.create(new JsPromiseExecutor() {
             @Override
             public void execute() {
-                messenger.findTextMessages(peer.convert(), query).start(new CommandCallback<List<MessageSearchEntity>>() {
+                messenger.findTextMessages(peer.convert(), query, limit, offset).start(new CommandCallback<List<MessageSearchEntity>>() {
                     @Override
                     public void onResult(List<MessageSearchEntity> res) {
                         resolve(convertSearchRes(res));
@@ -1139,7 +1139,6 @@ public class JsFacade implements Exportable {
 
                     @Override
                     public void onError(Exception e) {
-                        Log.d(TAG, "findAllText:error");
                         reject(e.getMessage());
                     }
                 });
@@ -1160,7 +1159,6 @@ public class JsFacade implements Exportable {
 
                     @Override
                     public void onError(Exception e) {
-                        Log.d(TAG, "findAllText:error");
                         reject(e.getMessage());
                     }
                 });
@@ -1181,7 +1179,6 @@ public class JsFacade implements Exportable {
 
                     @Override
                     public void onError(Exception e) {
-                        Log.d(TAG, "findAllText:error");
                         reject(e.getMessage());
                     }
                 });
@@ -1836,6 +1833,26 @@ public class JsFacade implements Exportable {
                 }
             });
         }
+    }
+
+    @UsedByApp
+    public JsPromise findAllFiles(final JsPeer peer, final int limit, final int offset) {
+        return JsPromise.create(new JsPromiseExecutor() {
+            @Override
+            public void execute() {
+                messenger.findFileMessages(peer.convert(), limit, offset).start(new CommandCallback<List<MessageSearchEntity>>() {
+                    @Override
+                    public void onResult(List<MessageSearchEntity> res) {
+                        resolve(convertSearchRes(res));
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        reject(e.getMessage());
+                    }
+                });
+            }
+        });
     }
 
 }

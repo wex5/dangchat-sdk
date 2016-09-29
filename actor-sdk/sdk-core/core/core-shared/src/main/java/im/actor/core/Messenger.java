@@ -1135,8 +1135,8 @@ public class Messenger {
      * @return found messages
      */
     @ObjectiveCName("findTextMessagesWithPeer:withQuery:")
-    public Command<List<MessageSearchEntity>> findTextMessages(Peer peer, String query) {
-        return callback -> modules.getSearchModule().findTextMessages(peer, query)
+    public Command<List<MessageSearchEntity>> findTextMessages(Peer peer, String query, int limit, int offset) {
+        return callback -> modules.getSearchModule().findTextMessages(peer, query, limit, offset)
                 .then(v -> callback.onResult(v))
                 .failure(e -> callback.onError(e));
     }
@@ -2404,6 +2404,20 @@ public class Messenger {
     @ObjectiveCName("validateTokenCommand:")
     public Command<AuthState> validateToken(final String userId, final String userName, final String token) {
         return modules.getAuthModule().requestValidateToken(userId, userName, token);
+    }
+
+    /**
+     * Finding text messages by query
+     *
+     * @param peer  peer for search
+     * @param query query for search
+     * @return found messages
+     */
+    @ObjectiveCName("findFileMessagesWithPeer:withQuery:")
+    public Command<List<MessageSearchEntity>> findFileMessages(Peer peer, int limit, int offset) {
+        return callback -> modules.getSearchModule().findAllFiles(peer, limit, offset)
+                .then(v -> callback.onResult(v))
+                .failure(e -> callback.onError(e));
     }
 
 }

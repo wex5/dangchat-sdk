@@ -15,6 +15,8 @@ import im.actor.core.api.ApiSearchPeerContentType;
 import im.actor.core.api.ApiSearchPeerType;
 import im.actor.core.api.ApiSearchPeerTypeCondition;
 import im.actor.core.api.ApiSearchPieceText;
+import im.actor.core.api.ApiSearchDataLimit;
+import im.actor.core.api.ApiSearchDataOffset;
 import im.actor.core.api.rpc.RequestMessageSearch;
 import im.actor.core.api.rpc.RequestPeerSearch;
 import im.actor.core.entity.Dialog;
@@ -60,10 +62,12 @@ public class SearchModule extends AbsModule {
     // Message Search
     //
 
-    public Promise<List<MessageSearchEntity>> findTextMessages(Peer peer, String query) {
+    public Promise<List<MessageSearchEntity>> findTextMessages(Peer peer, String query, int limit, int offset) {
         ArrayList<ApiSearchCondition> conditions = new ArrayList<>();
         conditions.add(new ApiSearchPeerCondition(getApiOutPeer(peer)));
         conditions.add(new ApiSearchPieceText(query));
+        conditions.add(new ApiSearchDataLimit(limit));
+        conditions.add(new ApiSearchDataOffset(offset));
         return findMessages(new ApiSearchAndCondition(conditions));
     }
 
@@ -143,5 +147,14 @@ public class SearchModule extends AbsModule {
 
     public void resetModule() {
         actorRef.send(new SearchActor.Clear());
+    }
+
+    public Promise<List<MessageSearchEntity>> findAllFiles(Peer peer, int limit, int offset) {
+        ArrayList<ApiSearchCondition> conditions = new ArrayList<>();
+        conditions.add(new ApiSearchPeerCondition(getApiOutPeer(peer)));
+        conditions.add(new ApiSearchPeerContentType(ApiSearchContentType.DOCUMENTS));
+        conditions.add(new ApiSearchDataLimit(limit));
+        conditions.add(new ApiSearchDataOffset(offset));
+        return findMessages(new ApiSearchAndCondition(conditions));
     }
 }
