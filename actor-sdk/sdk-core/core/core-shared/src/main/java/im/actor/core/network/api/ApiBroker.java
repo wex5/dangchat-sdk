@@ -124,9 +124,9 @@ public class ApiBroker extends Actor {
     }
 
     private void onNewSessionCreated(long authId) {
-        if (authId != currentAuthId) {
+/*        if (authId != currentAuthId) {
             return;
-        }
+        }*/
 
         Log.w(TAG, "New Session Created");
 

@@ -269,7 +269,6 @@ public class AuthKeyActor extends Actor {
                     byte[] authIdHash = new byte[32];
                     sha256.doFinal(authIdHash, 0);
                     long authId = ByteStrings.bytesToLong(authIdHash);
-
                     Log.d(TAG, "Key successfully created #" + authId);
 
                     gotoSuccess(master_secret, authId);

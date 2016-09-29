@@ -640,7 +640,6 @@ public class Authentication {
         modules.getActorApi().request(request, callback, timeout);
     }
 
-
     /**
      * 验证Token
      * by Lining 2016/8/26
