@@ -1212,7 +1212,10 @@ public class JsFacade implements Exportable {
         for (MessageSearchEntity e : res) {
             jsRes.push(JsMessageSearchEntity.create(e.getRid() + "",
                     messenger.buildPeerInfo(Peer.user(e.getSenderId())),
-                    messenger.getFormatter().formatDate(e.getDate()),
+                    //返回带时间的格式
+                    //by Lining 2017/3/9
+                    //messenger.getFormatter().formatDate(e.getDate()),
+                    messenger.getFormatter().formatDate(e.getDate()) + " " + messenger.getFormatter().formatTime(e.getDate()),
                     JsContent.createContent(e.getContent(),
                             e.getSenderId())));
         }
